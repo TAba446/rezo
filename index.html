@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Interactive Cards</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 40px;
+      font-family: sans-serif;
+      background: #f2f2f2;
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 40px;
+    }
+
+    .card-container {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      transition: all 0.3s ease;
+      flex-wrap: wrap;
+    }
+
+    .card {
+      width: 160px;
+      height: 240px;
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      transition: all 0.4s ease;
+      position: relative;
+      cursor: pointer;
+      flex-shrink: 0;
+      transform: scale(1);
+    }
+
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .card-content {
+      padding: 10px;
+    }
+
+    .card-title {
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .card-price {
+      font-size: 13px;
+      color: #777;
+    }
+
+    .card.active {
+      transform: scale(1.3);
+      z-index: 10;
+    }
+
+    .card-container:hover .card:not(.active) {
+      opacity: 0.6;
+      transform: scale(0.9);
+    }
+
+    .card-rating {
+      font-size: 12px;
+      color: #ffcc00;
+    }
+
+    @media (max-width: 768px) {
+      .card.active {
+        transform: scale(1.1);
+      }
+
+      .card-container:hover .card:not(.active) {
+        transform: scale(0.95);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Best Selling Product Of The <br><strong>COLLECTION</strong></h2>
+
+  <div class="card-container" id="cardContainer">
+    <div class="card">
+      <img src="https://via.placeholder.com/160x180?text=Summer+Outfits" alt="">
+      <div class="card-content">
+        <div class="card-title">Summer Outfits</div>
+        <div class="card-price">$90</div>
+        <div class="card-rating">★ 4.9</div>
+      </div>
+    </div>
+    <div class="card">
+      <img src="https://via.placeholder.com/160x180?text=Winter+Outfits" alt="">
+      <div class="card-content">
+        <div class="card-title">Winter Outfits</div>
+        <div class="card-price">$220</div>
+        <div class="card-rating">★ 4.8</div>
+      </div>
+    </div>
+    <div class="card">
+      <img src="https://via.placeholder.com/160x180?text=Modern+Shorts" alt="">
+      <div class="card-content">
+        <div class="card-title">Modern Shorts</div>
+        <div class="card-price">$190</div>
+        <div class="card-rating">★ 4.7</div>
+      </div>
+    </div>
+    <div class="card">
+      <img src="https://via.placeholder.com/160x180?text=Modern+Fashion" alt="">
+      <div class="card-content">
+        <div class="card-title">Modern Fashion</div>
+        <div class="card-price">$280</div>
+        <div class="card-rating">★ 4.9</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const cards = document.querySelectorAll('.card');
+
+    cards.forEach(card => {
+      card.addEventListener('mouseenter', () => {
+        cards.forEach(c => c.classList.remove('active'));
+        card.classList.add('active');
+      });
+
+      card.addEventListener('mouseleave', () => {
+        card.classList.remove('active');
+      });
+    });
+  </script>
+
+</body>
+</html>
