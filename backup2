@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Card Slider</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: #f2f2f2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h2, h1 {
+      text-align: center;
+      margin: 0;
+    }
+
+    h2 {
+      font-size: 18px;
+      font-weight: 400;
+      margin-top: 40px;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      font-size: 32px;
+      font-weight: 800;
+      margin-bottom: 30px;
+    }
+
+    .main-box {
+      width: 90%;
+      max-width: 1200px;
+      height: 350px;
+      background: #fff;
+      border-radius: 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      padding: 30px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      white-space: nowrap;
+      scroll-behavior: smooth;
+      position: relative;
+    }
+
+    .main-box::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    .main-box::-webkit-scrollbar-thumb {
+      background: #ccc;
+      border-radius: 20px;
+    }
+
+    .card {
+      display: inline-block;
+      vertical-align: top;
+      width: 160px;
+      height: 260px;
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+      margin: 0 10px;
+      overflow: hidden;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .card-content {
+      padding: 10px;
+      text-align: left;
+    }
+
+    .card-title {
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .card-price {
+      font-size: 13px;
+      color: #777;
+    }
+
+    .card-rating {
+      font-size: 12px;
+      color: #ffcc00;
+    }
+
+    .btn-view {
+      margin: 30px auto;
+      padding: 10px 20px;
+      background: #000;
+      color: #fff;
+      border-radius: 20px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .clone-img {
+      position: fixed;
+      transition: all 0.7s ease;
+      z-index: 999;
+      border-radius: 20px;
+      object-fit: cover;
+      box-shadow: 0 5px 30px rgba(0,0,0,0.2);
+    }
+
+    @media (max-width: 768px) {
+      .card.active { transform: scale(1.1); }
+      .card.inactive { transform: scale(0.95); opacity: 0.6; }
+    }
+  </style>
+</head>
+<body>
+
+<h2>Best Selling Product Of The</h2>
+<h1>COLLECTION</h1>
+
+<div class="main-box" id="mainBox">
+  <div class="card" data-link="card1/index-card1.html">
+    <img src="card1/card1.jpg" alt="Card 1">
+    <div class="card-content">
+      <div class="card-title">Summer Outfits</div>
+      <div class="card-price">$90</div>
+      <div class="card-rating">★ 4.9</div>
+    </div>
+  </div>
+  <div class="card" data-link="card1/index-card1.html">
+    <img src="card2/card2.jpg" alt="Card 2">
+    <div class="card-content">
+      <div class="card-title">Winter Outfits</div>
+      <div class="card-price">$220</div>
+      <div class="card-rating">★ 4.8</div>
+    </div>
+  </div>
+   <div class="card" data-link="card1/index-card1.html">
+    <img src="card2/card2.jpg" alt="Card 2">
+    <div class="card-content">
+      <div class="card-title">Winter Outfits</div>
+      <div class="card-price">$420</div>
+      <div class="card-rating">★ 4.8</div>
+    </div>
+   </div>
+  <!-- کارت‌های بیشتر -->
+</div>
+
+<button class="btn-view">See All Product</button>
+
+<script>
+  const container = document.getElementById('mainBox');
+  const cards = container.querySelectorAll('.card');
+
+  function updateActiveCardMobileOnly() {
+    if (window.innerWidth > 768) return;
+    const containerCenter = container.scrollLeft + container.offsetWidth / 2;
+    let closestCard = null;
+    let closestOffset = Infinity;
+
+    cards.forEach(card => {
+      const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+      const offset = Math.abs(containerCenter - cardCenter);
+      if (offset < closestOffset) {
+        closestOffset = offset;
+        closestCard = card;
+      }
+    });
+
+    cards.forEach(card => {
+      card.classList.remove('active', 'inactive');
+      if (card === closestCard) card.classList.add('active');
+      else card.classList.add('inactive');
+    });
+  }
+
+  // انیمیشن رفتن به صفحه
+  cards.forEach(card => {
+    card.addEventListener('click', () => {
+      const img = card.querySelector('img');
+      const rect = img.getBoundingClientRect();
+
+      const clone = img.cloneNode();
+      clone.classList.add('clone-img');
+      clone.style.top = rect.top + 'px';
+      clone.style.left = rect.left + 'px';
+      clone.style.width = rect.width + 'px';
+      clone.style.height = rect.height + 'px';
+
+      document.body.appendChild(clone);
+
+      setTimeout(() => {
+        clone.style.top = '50%';
+        clone.style.left = '50%';
+        clone.style.transform = 'translate(-50%, -50%) scale(2)';
+        clone.style.width = '300px';
+        clone.style.height = '300px';
+        clone.style.opacity = '0';
+      }, 10);
+
+      setTimeout(() => {
+        const targetLink = card.getAttribute('data-link');
+        window.location.href = targetLink;
+      }, 700);
+    });
+  });
+
+  container.addEventListener('scroll', updateActiveCardMobileOnly);
+  window.addEventListener('load', updateActiveCardMobileOnly);
+  window.addEventListener('resize', updateActiveCardMobileOnly);
+</script>
+
+</body>
+</html>
