@@ -3,56 +3,46 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Card Slider</title>
+  <title>Card Slider with Dynamic Transition</title>
   <style>
-    * { box-sizing: border-box; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      margin: 0;
       font-family: 'Poppins', sans-serif;
       background: #f2f2f2;
       display: flex;
       flex-direction: column;
       align-items: center;
-    }
-
-    h2, h1 {
-      text-align: center;
-      margin: 0;
+      padding-bottom: 40px;
     }
 
     h2 {
-      font-size: 18px;
-      font-weight: 400;
-      margin-top: 40px;
-      margin-bottom: 10px;
+      font-size: 18px; font-weight: 400;
+      margin-top: 40px; margin-bottom: 5px;
+      text-align: center;
     }
-
     h1 {
-      font-size: 32px;
-      font-weight: 800;
+      font-size: 32px; font-weight: 800;
       margin-bottom: 30px;
+      text-align: center;
     }
 
     .main-box {
-      width: 90%;
-      max-width: 1200px;
+      width: 90%; max-width: 1200px;
       height: 350px;
       background: #fff;
       border-radius: 30px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-      padding: 30px;
+      padding: 30px 20px 10px;
       overflow-x: auto;
       overflow-y: hidden;
       white-space: nowrap;
       scroll-behavior: smooth;
       position: relative;
     }
-
     .main-box::-webkit-scrollbar {
       height: 8px;
     }
-
     .main-box::-webkit-scrollbar-thumb {
       background: #ccc;
       border-radius: 20px;
@@ -61,165 +51,161 @@
     .card {
       display: inline-block;
       vertical-align: top;
-      width: 160px;
-      height: 260px;
+      width: 160px; height: 260px;
       background: #fff;
       border-radius: 20px;
-      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
       margin: 0 10px;
       overflow: hidden;
-      transition: transform 0.3s ease, opacity 0.3s ease;
       cursor: pointer;
+      transition: transform 0.3s ease, opacity 0.3s ease;
       position: relative;
     }
-
     .card img {
-      width: 100%;
-      height: 180px;
+      width: 100%; height: 180px;
       object-fit: cover;
+      display: block;
     }
-
     .card-content {
       padding: 10px;
       text-align: left;
     }
-
     .card-title {
-      font-weight: 600;
-      font-size: 14px;
+      font-weight: 600; font-size: 14px;
     }
-
     .card-price {
-      font-size: 13px;
-      color: #777;
+      font-size: 13px; color: #777; margin-top: 4px;
     }
-
     .card-rating {
-      font-size: 12px;
-      color: #ffcc00;
-    }
-
-    .btn-view {
-      margin: 30px auto;
-      padding: 10px 20px;
-      background: #000;
-      color: #fff;
-      border-radius: 20px;
-      border: none;
-      cursor: pointer;
+      font-size: 12px; color: #ffcc00; margin-top: 4px;
     }
 
     .clone-img {
       position: fixed;
-      transition: all 0.7s ease;
-      z-index: 999;
+      z-index: 9999;
       border-radius: 20px;
       object-fit: cover;
       box-shadow: 0 5px 30px rgba(0,0,0,0.2);
+      transition: all 0.7s ease;
+      pointer-events: none;
+    }
+
+    .btn-view {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #000; color: #fff;
+      border: none; border-radius: 20px;
+      cursor: pointer;
+      font-size: 14px;
     }
 
     @media (max-width: 768px) {
-      .card.active { transform: scale(1.1); }
+      .card.active { transform: scale(1.1); opacity: 1; }
       .card.inactive { transform: scale(0.95); opacity: 0.6; }
     }
   </style>
 </head>
 <body>
 
-<h2>Best Selling Product Of The</h2>
-<h1>COLLECTION</h1>
+  <h2>Best Selling Product Of The</h2>
+  <h1>COLLECTION</h1>
 
-<div class="main-box" id="mainBox">
-  <div class="card" data-link="card1/index-card1.html">
-    <img src="card1/card1.jpg" alt="Card 1">
-    <div class="card-content">
-      <div class="card-title">Summer Outfits</div>
-      <div class="card-price">$90</div>
-      <div class="card-rating">★ 4.9</div>
+  <div class="main-box" id="mainBox">
+    <div class="card" data-link="card1/index-card1.html">
+      <img src="card1/card1.jpg" alt="Card 1">
+      <div class="card-content">
+        <div class="card-title">Summer Outfits</div>
+        <div class="card-price">$90</div>
+        <div class="card-rating">★ 4.9</div>
+      </div>
+    </div>
+    <div class="card" data-link="card2/index-card2.html">
+      <img src="card2/card2.jpg" alt="Card 2">
+      <div class="card-content">
+        <div class="card-title">Winter Outfits</div>
+        <div class="card-price">$220</div>
+        <div class="card-rating">★ 4.8</div>
+      </div>
+    </div>
+    <div class="card" data-link="card3/index-card3.html">
+      <img src="card3/card3.jpg" alt="Card 3">
+      <div class="card-content">
+        <div class="card-title">Modern Shorts</div>
+        <div class="card-price">$190</div>
+        <div class="card-rating">★ 4.7</div>
+      </div>
+    </div>
+    <div class="card" data-link="card4/index-card4.html">
+      <img src="card4/card4.jpg" alt="Card 4">
+      <div class="card-content">
+        <div class="card-title">Modern Fashion</div>
+        <div class="card-price">$280</div>
+        <div class="card-rating">★ 4.9</div>
+      </div>
+    </div>
+    <div class="card" data-link="card5/index-card5.html">
+      <img src="card5/card5.jpg" alt="Card 5">
+      <div class="card-content">
+        <div class="card-title">Jogger Quilt</div>
+        <div class="card-price">$460</div>
+        <div class="card-rating">★ 4.8</div>
+      </div>
     </div>
   </div>
-  <div class="card" data-link="card1/index-card1.html">
-    <img src="card2/card2.jpg" alt="Card 2">
-    <div class="card-content">
-      <div class="card-title">Winter Outfits</div>
-      <div class="card-price">$220</div>
-      <div class="card-rating">★ 4.8</div>
-    </div>
-  </div>
-   <div class="card" data-link="card1/index-card1.html">
-    <img src="card2/card2.jpg" alt="Card 2">
-    <div class="card-content">
-      <div class="card-title">Winter Outfits</div>
-      <div class="card-price">$420</div>
-      <div class="card-rating">★ 4.8</div>
-    </div>
-   </div>
-  <!-- کارت‌های بیشتر -->
-</div>
 
-<button class="btn-view">See All Product</button>
+  <button class="btn-view">See All Product</button>
 
-<script>
-  const container = document.getElementById('mainBox');
-  const cards = container.querySelectorAll('.card');
+  <script>
+    const container = document.getElementById('mainBox');
+    const cards = Array.from(container.querySelectorAll('.card'));
 
-  function updateActiveCardMobileOnly() {
-    if (window.innerWidth > 768) return;
-    const containerCenter = container.scrollLeft + container.offsetWidth / 2;
-    let closestCard = null;
-    let closestOffset = Infinity;
+    // فقط در موبایل کارت وسط فعال می‌شود
+    function updateActiveCardMobileOnly() {
+      if (window.innerWidth > 768) return;
+      const center = container.scrollLeft + container.offsetWidth / 2;
+      let closest = null, minDiff = Infinity;
+      cards.forEach(c => {
+        const cCenter = c.offsetLeft + c.offsetWidth/2;
+        const diff = Math.abs(center - cCenter);
+        if (diff < minDiff) { minDiff = diff; closest = c; }
+      });
+      cards.forEach(c => {
+        c.classList.toggle('active', c === closest);
+        c.classList.toggle('inactive', c !== closest);
+      });
+    }
+    container.addEventListener('scroll', updateActiveCardMobileOnly);
+    window.addEventListener('load', updateActiveCardMobileOnly);
+    window.addEventListener('resize', updateActiveCardMobileOnly);
 
+    // کلیک روی کارت → انیمیشن کلون عکس → ناوبری
     cards.forEach(card => {
-      const cardCenter = card.offsetLeft + card.offsetWidth / 2;
-      const offset = Math.abs(containerCenter - cardCenter);
-      if (offset < closestOffset) {
-        closestOffset = offset;
-        closestCard = card;
-      }
+      card.addEventListener('click', () => {
+        const img = card.querySelector('img');
+        const rect = img.getBoundingClientRect();
+        const clone = img.cloneNode();
+        clone.classList.add('clone-img');
+        clone.style.top    = rect.top  + 'px';
+        clone.style.left   = rect.left + 'px';
+        clone.style.width  = rect.width  + 'px';
+        clone.style.height = rect.height + 'px';
+        document.body.appendChild(clone);
+
+        // شروع انیمیشن یک فریم بعد
+        requestAnimationFrame(() => {
+          clone.style.top      = '50%';
+          clone.style.left     = '50%';
+          clone.style.width    = '100vw';
+          clone.style.height   = '100vh';
+          clone.style.transform = 'translate(-50%, -50%)';
+        });
+
+        // پس از پایان انیمیشن به صفحه مقصد برو
+        setTimeout(() => {
+          window.location.href = card.getAttribute('data-link');
+        }, 700);
+      });
     });
-
-    cards.forEach(card => {
-      card.classList.remove('active', 'inactive');
-      if (card === closestCard) card.classList.add('active');
-      else card.classList.add('inactive');
-    });
-  }
-
-  // انیمیشن رفتن به صفحه
-  cards.forEach(card => {
-    card.addEventListener('click', () => {
-      const img = card.querySelector('img');
-      const rect = img.getBoundingClientRect();
-
-      const clone = img.cloneNode();
-      clone.classList.add('clone-img');
-      clone.style.top = rect.top + 'px';
-      clone.style.left = rect.left + 'px';
-      clone.style.width = rect.width + 'px';
-      clone.style.height = rect.height + 'px';
-
-      document.body.appendChild(clone);
-
-      setTimeout(() => {
-        clone.style.top = '50%';
-        clone.style.left = '50%';
-        clone.style.transform = 'translate(-50%, -50%) scale(2)';
-        clone.style.width = '300px';
-        clone.style.height = '300px';
-        clone.style.opacity = '0';
-      }, 10);
-
-      setTimeout(() => {
-        const targetLink = card.getAttribute('data-link');
-        window.location.href = targetLink;
-      }, 700);
-    });
-  });
-
-  container.addEventListener('scroll', updateActiveCardMobileOnly);
-  window.addEventListener('load', updateActiveCardMobileOnly);
-  window.addEventListener('resize', updateActiveCardMobileOnly);
-</script>
-
+  </script>
 </body>
 </html>
