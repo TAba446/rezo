@@ -138,54 +138,44 @@
 
   <button class="btn-view">See All Product</button>
 
- <script>
-  const container = document.getElementById('mainBox');
-  const cards = container.querySelectorAll('.card');
+  <script>
+    const container = document.getElementById('mainBox');
+    const cards = container.querySelectorAll('.card');
 
-  // تابع به‌روزرسانی وضعیت کارت‌ها (active/inactive)
-  function updateActiveCard() {
-    const containerCenter = container.scrollLeft + container.offsetWidth / 2;
-    let closestCard = null;
-    let closestOffset = Infinity;
+    function updateActiveCard() {
+      const containerCenter = container.scrollLeft + container.offsetWidth / 2;
+      let closestCard = null;
+      let closestOffset = Infinity;
+
+      cards.forEach(card => {
+        const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+        const offset = Math.abs(containerCenter - cardCenter);
+        if (offset < closestOffset) {
+          closestOffset = offset;
+          closestCard = card;
+        }
+      });
+
+      cards.forEach(card => {
+        card.classList.remove('active', 'inactive');
+        if (card === closestCard) {
+          card.classList.add('active');
+        } else {
+          card.classList.add('inactive');
+        }
+      });
+    }
+
+    container.addEventListener('scroll', updateActiveCard);
+    window.addEventListener('load', updateActiveCard);
 
     cards.forEach(card => {
-      const cardCenter = card.offsetLeft + card.offsetWidth / 2;
-      const offset = Math.abs(containerCenter - cardCenter);
-      if (offset < closestOffset) {
-        closestOffset = offset;
-        closestCard = card;
-      }
+      card.addEventListener('click', () => {
+        const scrollTo = card.offsetLeft - container.offsetWidth / 2 + card.offsetWidth / 2;
+        container.scrollTo({ left: scrollTo, behavior: 'smooth' });
+      });
     });
+  </script>
 
-    cards.forEach(card => {
-      card.classList.toggle('active', card === closestCard);
-      card.classList.toggle('inactive', card !== closestCard);
-    });
-  }
-
-  // رویداد اسکرول: هر بار که باکس اسکرول می‌شه، کارت وسط رو برجسته کن
-  container.addEventListener('scroll', updateActiveCard);
-
-  // در لود صفحه، کارت میانی رو به مرکز ببر و برجسته کن
-  window.addEventListener('load', () => {
-    const mid = Math.floor(cards.length / 2);
-    const card = cards[mid];
-    // جابه‌جایی با scrollBy به جای scrollTo
-    const containerRect = container.getBoundingClientRect();
-    const cardRect = card.getBoundingClientRect();
-    const offset = (cardRect.left + cardRect.width/2) - (containerRect.left + containerRect.width/2);
-    container.scrollBy({ left: offset, behavior: 'smooth' });
-  });
-
-  // کلیک روی هر کارت: جابه‌جایی همزمان و صاف به مرکز
-  cards.forEach(card => {
-    card.addEventListener('click', () => {
-      const containerRect = container.getBoundingClientRect();
-      const cardRect = card.getBoundingClientRect();
-      const offset = (cardRect.left + cardRect.width/2) - (containerRect.left + containerRect.width/2);
-      container.scrollBy({ left: offset, behavior: 'smooth' });
-    });
-  });
- </script>
 </body>
 </html>
