@@ -5,7 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Centered Card Slider</title>
   <style>
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
@@ -14,20 +16,19 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding-bottom: 40px;
     }
 
     h2 {
       font-size: 18px;
       font-weight: 400;
       margin-top: 40px;
-      margin-bottom: 0;
+      margin-bottom: 10px;
     }
 
     h1 {
       font-size: 32px;
       font-weight: 800;
-      margin: 5px 0 30px;
+      margin: 0 0 30px 0;
     }
 
     .main-box {
@@ -48,6 +49,7 @@
     .main-box::-webkit-scrollbar {
       height: 8px;
     }
+
     .main-box::-webkit-scrollbar-thumb {
       background: #ccc;
       border-radius: 20px;
@@ -86,13 +88,11 @@
     .card-price {
       font-size: 13px;
       color: #777;
-      margin-top: 4px;
     }
 
     .card-rating {
       font-size: 12px;
       color: #ffcc00;
-      margin-top: 4px;
     }
 
     .card.active {
@@ -114,11 +114,12 @@
       border-radius: 20px;
       border: none;
       cursor: pointer;
-      font-size: 14px;
     }
 
     @media (max-width: 768px) {
-      .card.active { transform: scale(1.1); }
+      .card.active {
+        transform: scale(1.1);
+      }
     }
   </style>
 </head>
@@ -128,91 +129,50 @@
   <h1>COLLECTION</h1>
 
   <div class="main-box" id="mainBox">
-    <div class="card">
-      <img src="https://via.placeholder.com/160x180?text=Summer+Clothes" alt="Summer Outfits">
-      <div class="card-content">
-        <div class="card-title">Summer Outfits</div>
-        <div class="card-price">$90</div>
-        <div class="card-rating">★ 4.9</div>
-      </div>
-    </div>
-    <div class="card">
-      <img src="https://via.placeholder.com/160x180?text=Winter+Clothes" alt="Winter Outfits">
-      <div class="card-content">
-        <div class="card-title">Winter Outfits</div>
-        <div class="card-price">$220</div>
-        <div class="card-rating">★ 4.8</div>
-      </div>
-    </div>
-    <div class="card">
-      <img src="https://via.placeholder.com/160x180?text=Modern+Shorts" alt="Modern Shorts">
-      <div class="card-content">
-        <div class="card-title">Modern Shorts</div>
-        <div class="card-price">$190</div>
-        <div class="card-rating">★ 4.7</div>
-      </div>
-    </div>
-    <div class="card">
-      <img src="https://via.placeholder.com/160x180?text=Modern+Fashion" alt="Modern Fashion">
-      <div class="card-content">
-        <div class="card-title">Modern Fashion</div>
-        <div class="card-price">$280</div>
-        <div class="card-rating">★ 4.9</div>
-      </div>
-    </div>
-    <div class="card">
-      <img src="https://via.placeholder.com/160x180?text=Jogger+Quilt" alt="Jogger Quilt">
-      <div class="card-content">
-        <div class="card-title">Jogger Quilt</div>
-        <div class="card-price">$460</div>
-        <div class="card-rating">★ 4.8</div>
-      </div>
-    </div>
+    <div class="card"><img src="https://via.placeholder.com/160x180?text=Summer+Outfits"><div class="card-content"><div class="card-title">Summer Outfits</div><div class="card-price">$90</div><div class="card-rating">★ 4.9</div></div></div>
+    <div class="card"><img src="https://via.placeholder.com/160x180?text=Winter+Outfits"><div class="card-content"><div class="card-title">Winter Outfits</div><div class="card-price">$220</div><div class="card-rating">★ 4.8</div></div></div>
+    <div class="card"><img src="https://via.placeholder.com/160x180?text=Modern+Shorts"><div class="card-content"><div class="card-title">Modern Shorts</div><div class="card-price">$190</div><div class="card-rating">★ 4.7</div></div></div>
+    <div class="card"><img src="https://via.placeholder.com/160x180?text=Modern+Fashion"><div class="card-content"><div class="card-title">Modern Fashion</div><div class="card-price">$280</div><div class="card-rating">★ 4.9</div></div></div>
+    <div class="card"><img src="https://via.placeholder.com/160x180?text=Jogger+Quilt"><div class="card-content"><div class="card-title">Jogger Quilt</div><div class="card-price">$460</div><div class="card-rating">★ 4.8</div></div></div>
   </div>
 
   <button class="btn-view">See All Product</button>
 
   <script>
     const container = document.getElementById('mainBox');
-    const cards = Array.from(container.querySelectorAll('.card'));
+    const cards = container.querySelectorAll('.card');
 
     function updateActiveCard() {
       const containerCenter = container.scrollLeft + container.offsetWidth / 2;
-      let closest = null;
-      let minDiff = Infinity;
+      let closestCard = null;
+      let closestOffset = Infinity;
 
       cards.forEach(card => {
         const cardCenter = card.offsetLeft + card.offsetWidth / 2;
-        const diff = Math.abs(containerCenter - cardCenter);
-        if (diff < minDiff) {
-          minDiff = diff;
-          closest = card;
+        const offset = Math.abs(containerCenter - cardCenter);
+        if (offset < closestOffset) {
+          closestOffset = offset;
+          closestCard = card;
         }
       });
 
       cards.forEach(card => {
-        card.classList.toggle('active', card === closest);
-        card.classList.toggle('inactive', card !== closest);
+        card.classList.remove('active', 'inactive');
+        if (card === closestCard) {
+          card.classList.add('active');
+        } else {
+          card.classList.add('inactive');
+        }
       });
     }
 
     container.addEventListener('scroll', updateActiveCard);
-
-    window.addEventListener('load', () => {
-      // مرکز کردن کارت میانی در لود
-      const midCard = cards[Math.floor(cards.length / 2)];
-      const cRect = container.getBoundingClientRect();
-      const mRect = midCard.getBoundingClientRect();
-      const offset = (mRect.left + mRect.width/2) - (cRect.left + cRect.width/2);
-      container.scrollBy({ left: offset, behavior: 'smooth' });
-    });
+    window.addEventListener('load', updateActiveCard);
 
     cards.forEach(card => {
       card.addEventListener('click', () => {
-        const cRect = container.getBoundingClientRect();
-        const r = card.getBoundingClientRect();
-        const offset = (r.left + r.width/2) - (cRect.left + cRect.width/2);
-        container.scrollBy({ left: offset, behavior: 'smooth' });
+        const scrollTo = card.offsetLeft - container.offsetWidth / 2 + card.offsetWidth / 2;
+        container.scrollTo({ left: scrollTo, behavior: 'smooth' });
       });
     });
   </script>
