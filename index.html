@@ -33,22 +33,22 @@
       text-align: center;
     }
 
-    .main-box {
-      width: 90%;
-      max-width: 1200px;
-      height: 350px;
-      background: #fff;
-      border-radius: 30px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-      padding: 30px;
-      overflow-x: auto;
-      overflow-y: hidden;
-      white-space: nowrap;
-      scroll-behavior: smooth;
-      position: relative;
-      padding-bottom: 10px;
-      box-sizing: content-box;
-    }
+   .main-box {
+  width: 90%;
+  max-width: 1200px;
+  height: 350px;
+  background: #fff;
+  border-radius: 30px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  padding: 30px;
+  padding-bottom: 10px; /* اضافه شده برای جای اسکرول */
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  scroll-behavior: smooth;
+  position: relative;
+  box-sizing: content-box; /* مهم برای جلوگیری از افزایش ارتفاع با اسکرول */
+   }
 
     .main-box::-webkit-scrollbar {
       height: 8px;
