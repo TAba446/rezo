@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Interactive Cards</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Card Collection Slider</title>
   <style>
     * {
       box-sizing: border-box;
@@ -11,27 +11,44 @@
 
     body {
       margin: 0;
-      padding: 40px;
-      font-family: sans-serif;
+      font-family: 'Poppins', sans-serif;
       background: #f2f2f2;
-      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     h2 {
-      margin-bottom: 40px;
+      font-size: 18px;
+      font-weight: 400;
+      margin-top: 40px;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      font-size: 32px;
+      font-weight: 800;
+      margin: 0 0 30px 0;
+    }
+
+    .slider-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      padding: 20px 0;
     }
 
     .card-container {
       display: flex;
-      justify-content: center;
       gap: 20px;
+      padding: 20px;
+      width: max-content;
       transition: all 0.3s ease;
-      flex-wrap: wrap;
     }
 
     .card {
+      flex-shrink: 0;
       width: 160px;
-      height: 240px;
+      height: 260px;
       background: #fff;
       border-radius: 20px;
       box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
@@ -39,8 +56,6 @@
       transition: all 0.4s ease;
       position: relative;
       cursor: pointer;
-      flex-shrink: 0;
-      transform: scale(1);
     }
 
     .card img {
@@ -51,10 +66,11 @@
 
     .card-content {
       padding: 10px;
+      text-align: left;
     }
 
     .card-title {
-      font-weight: bold;
+      font-weight: 600;
       font-size: 14px;
     }
 
@@ -63,70 +79,101 @@
       color: #777;
     }
 
+    .card-rating {
+      font-size: 12px;
+      color: #ffcc00;
+    }
+
     .card.active {
       transform: scale(1.3);
       z-index: 10;
     }
 
     .card-container:hover .card:not(.active) {
-      opacity: 0.6;
+      opacity: 0.5;
       transform: scale(0.9);
     }
 
-    .card-rating {
-      font-size: 12px;
-      color: #ffcc00;
+    .btn-view {
+      margin: 20px auto;
+      padding: 10px 20px;
+      background: #000;
+      color: #fff;
+      border-radius: 20px;
+      border: none;
+      cursor: pointer;
     }
 
     @media (max-width: 768px) {
       .card.active {
         transform: scale(1.1);
       }
-
       .card-container:hover .card:not(.active) {
         transform: scale(0.95);
       }
+    }
+
+    .slider-wrapper::-webkit-scrollbar {
+      display: none;
+    }
+
+    .slider-wrapper {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
     }
   </style>
 </head>
 <body>
 
-  <h2>Best Selling Product Of The <br><strong>COLLECTION</strong></h2>
+  <h2>Best Selling Product Of The</h2>
+  <h1>COLLECTION</h1>
 
-  <div class="card-container" id="cardContainer">
-    <div class="card">
-      <img src="https://via.placeholder.com/160x180?text=Summer+Outfits" alt="">
-      <div class="card-content">
-        <div class="card-title">Summer Outfits</div>
-        <div class="card-price">$90</div>
-        <div class="card-rating">★ 4.9</div>
+  <div class="slider-wrapper">
+    <div class="card-container" id="cardContainer">
+      <div class="card">
+        <img src="https://via.placeholder.com/160x180?text=Summer+Outfits" alt="">
+        <div class="card-content">
+          <div class="card-title">Summer Outfits</div>
+          <div class="card-price">$90</div>
+          <div class="card-rating">★ 4.9</div>
+        </div>
       </div>
-    </div>
-    <div class="card">
-      <img src="https://via.placeholder.com/160x180?text=Winter+Outfits" alt="">
-      <div class="card-content">
-        <div class="card-title">Winter Outfits</div>
-        <div class="card-price">$220</div>
-        <div class="card-rating">★ 4.8</div>
+      <div class="card">
+        <img src="https://via.placeholder.com/160x180?text=Winter+Outfits" alt="">
+        <div class="card-content">
+          <div class="card-title">Winter Outfits</div>
+          <div class="card-price">$220</div>
+          <div class="card-rating">★ 4.8</div>
+        </div>
       </div>
-    </div>
-    <div class="card">
-      <img src="https://via.placeholder.com/160x180?text=Modern+Shorts" alt="">
-      <div class="card-content">
-        <div class="card-title">Modern Shorts</div>
-        <div class="card-price">$190</div>
-        <div class="card-rating">★ 4.7</div>
+      <div class="card">
+        <img src="https://via.placeholder.com/160x180?text=Modern+Shorts" alt="">
+        <div class="card-content">
+          <div class="card-title">Modern Shorts</div>
+          <div class="card-price">$190</div>
+          <div class="card-rating">★ 4.7</div>
+        </div>
       </div>
-    </div>
-    <div class="card">
-      <img src="https://via.placeholder.com/160x180?text=Modern+Fashion" alt="">
-      <div class="card-content">
-        <div class="card-title">Modern Fashion</div>
-        <div class="card-price">$280</div>
-        <div class="card-rating">★ 4.9</div>
+      <div class="card">
+        <img src="https://via.placeholder.com/160x180?text=Modern+Fashion" alt="">
+        <div class="card-content">
+          <div class="card-title">Modern Fashion</div>
+          <div class="card-price">$280</div>
+          <div class="card-rating">★ 4.9</div>
+        </div>
+      </div>
+      <div class="card">
+        <img src="https://via.placeholder.com/160x180?text=Jogger+Quilt" alt="">
+        <div class="card-content">
+          <div class="card-title">Jogger Quilt</div>
+          <div class="card-price">$460</div>
+          <div class="card-rating">★ 4.8</div>
+        </div>
       </div>
     </div>
   </div>
+
+  <button class="btn-view">See All Product</button>
 
   <script>
     const cards = document.querySelectorAll('.card');
@@ -142,6 +189,5 @@
       });
     });
   </script>
-
 </body>
 </html>
