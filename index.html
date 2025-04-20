@@ -3,11 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Card Slider Desktop Click Only</title>
+  <title>Card Slider</title>
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -18,21 +16,25 @@
       align-items: center;
     }
 
+    h2, h1 {
+      text-align: center;
+      margin: 0;
+    }
+
     h2 {
       font-size: 18px;
       font-weight: 400;
       margin-top: 40px;
       margin-bottom: 10px;
-      text-align: center;
     }
 
     h1 {
       font-size: 32px;
       font-weight: 800;
-      margin: 0 0 30px 0;
-      text-align: center;
+      margin-bottom: 30px;
     }
- .main-box {
+
+    .main-box {
       width: 90%;
       max-width: 1200px;
       height: 350px;
@@ -45,7 +47,7 @@
       white-space: nowrap;
       scroll-behavior: smooth;
       position: relative;
- }
+    }
 
     .main-box::-webkit-scrollbar {
       height: 8px;
@@ -68,6 +70,7 @@
       overflow: hidden;
       transition: transform 0.3s ease, opacity 0.3s ease;
       cursor: pointer;
+      position: relative;
     }
 
     .card img {
@@ -96,17 +99,6 @@
       color: #ffcc00;
     }
 
-    .card.active {
-      transform: scale(1.3);
-      opacity: 1;
-      z-index: 5;
-    }
-
-    .card.inactive {
-      opacity: 0.5;
-      transform: scale(0.9);
-    }
-
     .btn-view {
       margin: 30px auto;
       padding: 10px 20px;
@@ -117,81 +109,109 @@
       cursor: pointer;
     }
 
-    @media (max-width: 768px) {
-      /* در موبایل با مرکز قرار گرفتن کارت، برجستگی اعمال شود */
-      .card.active {
-        transform: scale(1.1);
-        opacity: 1;
-      }
+    .clone-img {
+      position: fixed;
+      transition: all 0.7s ease;
+      z-index: 999;
+      border-radius: 20px;
+      object-fit: cover;
+      box-shadow: 0 5px 30px rgba(0,0,0,0.2);
+    }
 
-      .card.inactive {
-        transform: scale(0.95);
-        opacity: 0.6;
-      }
+    @media (max-width: 768px) {
+      .card.active { transform: scale(1.1); }
+      .card.inactive { transform: scale(0.95); opacity: 0.6; }
     }
   </style>
 </head>
 <body>
 
-  <h2>Best Selling Product Of The</h2>
-  <h1>COLLECTION</h1>
+<h2>Best Selling Product Of The</h2>
+<h1>COLLECTION</h1>
 
-  <div class="main-box" id="mainBox">
-    <div class="card"><img src="https://via.placeholder.com/160x180?text=Summer+Outfits"><div class="card-content"><div class="card-title">Summer Outfits</div><div class="card-price">$90</div><div class="card-rating">★ 4.9</div></div></div>
-    <div class="card"><img src="https://via.placeholder.com/160x180?text=Winter+Outfits"><div class="card-content"><div class="card-title">Winter Outfits</div><div class="card-price">$220</div><div class="card-rating">★ 4.8</div></div></div>
-    <div class="card"><img src="https://via.placeholder.com/160x180?text=Modern+Shorts"><div class="card-content"><div class="card-title">Modern Shorts</div><div class="card-price">$190</div><div class="card-rating">★ 4.7</div></div></div>
-    <div class="card"><img src="https://via.placeholder.com/160x180?text=Modern+Fashion"><div class="card-content"><div class="card-title">Modern Fashion</div><div class="card-price">$280</div><div class="card-rating">★ 4.9</div></div></div>
-    <div class="card"><img src="https://via.placeholder.com/160x180?text=Jogger+Quilt"><div class="card-content"><div class="card-title">Jogger Quilt</div><div class="card-price">$460</div><div class="card-rating">★ 4.8</div></div></div>
+<div class="main-box" id="mainBox">
+  <div class="card" data-link="card1/index-card1.html">
+    <img src="card1/card1.jpg" alt="Card 1">
+    <div class="card-content">
+      <div class="card-title">Summer Outfits</div>
+      <div class="card-price">$90</div>
+      <div class="card-rating">★ 4.9</div>
+    </div>
   </div>
+  <div class="card" data-link="card2/index-card2.html">
+    <img src="card2/card2.jpg" alt="Card 2">
+    <div class="card-content">
+      <div class="card-title">Winter Outfits</div>
+      <div class="card-price">$220</div>
+      <div class="card-rating">★ 4.8</div>
+    </div>
+  </div>
+  <!-- کارت‌های بیشتر -->
+</div>
 
-  <button class="btn-view">See All Product</button>
+<button class="btn-view">See All Product</button>
 
-  <script>
-    const container = document.getElementById('mainBox');
-    const cards = container.querySelectorAll('.card');
+<script>
+  const container = document.getElementById('mainBox');
+  const cards = container.querySelectorAll('.card');
 
-    // فقط در موبایل با اسکرول کارت وسط فعال میشه
-    function updateActiveCardMobileOnly() {
-      if (window.innerWidth > 768) return; // فقط موبایل
+  function updateActiveCardMobileOnly() {
+    if (window.innerWidth > 768) return;
+    const containerCenter = container.scrollLeft + container.offsetWidth / 2;
+    let closestCard = null;
+    let closestOffset = Infinity;
 
-      const containerCenter = container.scrollLeft + container.offsetWidth / 2;
-      let closestCard = null;
-      let closestOffset = Infinity;
-
-      cards.forEach(card => {
-        const cardCenter = card.offsetLeft + card.offsetWidth / 2;
-        const offset = Math.abs(containerCenter - cardCenter);
-        if (offset < closestOffset) {
-          closestOffset = offset;
-          closestCard = card;
-        }
-      });
-
-      cards.forEach(card => {
-        card.classList.remove('active', 'inactive');
-        if (card === closestCard) {
-          card.classList.add('active');
-        } else {
-          card.classList.add('inactive');
-        }
-      });
-    }
-
-    // برای کلیک روی کارت (در همه حالت‌ها)
     cards.forEach(card => {
-      card.addEventListener('click', () => {
-        cards.forEach(c => c.classList.remove('active', 'inactive'));
-        card.classList.add('active');
-
-        const scrollTo = card.offsetLeft - container.offsetWidth / 2 + card.offsetWidth / 2;
-        container.scrollTo({ left: scrollTo, behavior: 'smooth' });
-      });
+      const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+      const offset = Math.abs(containerCenter - cardCenter);
+      if (offset < closestOffset) {
+        closestOffset = offset;
+        closestCard = card;
+      }
     });
 
-    container.addEventListener('scroll', updateActiveCardMobileOnly);
-    window.addEventListener('load', updateActiveCardMobileOnly);
-    window.addEventListener('resize', updateActiveCardMobileOnly);
-  </script>
+    cards.forEach(card => {
+      card.classList.remove('active', 'inactive');
+      if (card === closestCard) card.classList.add('active');
+      else card.classList.add('inactive');
+    });
+  }
+
+  // انیمیشن رفتن به صفحه
+  cards.forEach(card => {
+    card.addEventListener('click', () => {
+      const img = card.querySelector('img');
+      const rect = img.getBoundingClientRect();
+
+      const clone = img.cloneNode();
+      clone.classList.add('clone-img');
+      clone.style.top = rect.top + 'px';
+      clone.style.left = rect.left + 'px';
+      clone.style.width = rect.width + 'px';
+      clone.style.height = rect.height + 'px';
+
+      document.body.appendChild(clone);
+
+      setTimeout(() => {
+        clone.style.top = '50%';
+        clone.style.left = '50%';
+        clone.style.transform = 'translate(-50%, -50%) scale(2)';
+        clone.style.width = '300px';
+        clone.style.height = '300px';
+        clone.style.opacity = '0';
+      }, 10);
+
+      setTimeout(() => {
+        const targetLink = card.getAttribute('data-link');
+        window.location.href = targetLink;
+      }, 700);
+    });
+  });
+
+  container.addEventListener('scroll', updateActiveCardMobileOnly);
+  window.addEventListener('load', updateActiveCardMobileOnly);
+  window.addEventListener('resize', updateActiveCardMobileOnly);
+</script>
 
 </body>
 </html>
